@@ -1,0 +1,57 @@
+# Default values for app-frontendapp-backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: ghcr.io/finure/app-frontend
+  tag: 1.0.4
+  pullPolicy: IfNotPresent
+secretName: "finure-app"
+consumer:
+  command:
+    - python
+    - consume_data.py
+  replicas: 1
+  autoscaling:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 80
+    # targetMemoryUtilizationPercentage: 80
+podAnnotations: {}
+podLabels: {}
+imagePullSecrets:
+  - name: "ghcr"
+serviceAccount:
+  create: true
+  automount: true
+  annotations:
+    iam.gke.io/gcp-service-account: app-backend@finure-465001.iam.gserviceaccount.com
+  name: "app-backend"
+volumes:
+  - name: kafka-certs
+    secret:
+      secretName: "kafka"
+  - name: kafka-ca
+    secret:
+      secretName: "finure-cluster-ca-cert"
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts:
+  - name: kafka-certs
+    mountPath: /etc/kafka/secrets
+    readOnly: true
+  - name: kafka-ca
+    mountPath: /etc/kafka/ca
+    readOnly: true
+livenessProbe:
+  exec:
+    command: ["/bin/sh", "/app/probe.sh"]
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  timeoutSeconds: 5
+readinessProbe:
+  exec:
+    command: ["/bin/sh", "/app/probe.sh"]
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
