@@ -1,10 +1,11 @@
-FROM node:22-alpine AS builder
+FROM node:22-slim AS builder
 
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
 
-RUN npm ci --only=production=false
+RUN rm -rf node_modules package-lock.json && \
+    npm ci
 
 COPY . .
 
