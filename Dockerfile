@@ -27,4 +27,4 @@ USER reactapp
 
 EXPOSE 3000
 
-CMD ["serve", "-s", "dist", "-l", "3000", "-H", "0.0.0.0"]
+CMD ["serve", "-s", "dist"]
