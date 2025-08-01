@@ -5,8 +5,8 @@ metadata:
   labels:
     {{- include "app-frontend.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.consumer.autoscaling.enabled }}
-  replicas: {{ .Values.consumer.replicas }}
+  {{- if not .Values.frontend.autoscaling.enabled }}
+  replicas: {{ .Values.frontend.replicas }}
   {{- end }}
   selector:
     matchLabels:
@@ -31,20 +31,10 @@ spec:
         - name: app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
-          command:
-            - sh
-            - -c
-            - {{ printf "/app/entrypoint.sh %s" (join " " .Values.consumer.command) | quote }}
+          ports:
+          - containerPort: 3000
           {{- include "environment" . | nindent 10 }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
-          {{- with .Values.volumeMounts }}
-          volumeMounts:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.volumes }}
-      volumes:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}

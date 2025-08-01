@@ -7,10 +7,7 @@ image:
   tag: 0.1.0
   pullPolicy: IfNotPresent
 secretName: "finure-app"
-consumer:
-  command:
-    - python
-    - consume_data.py
+frontend:
   replicas: 1
   autoscaling:
     enabled: true
@@ -23,23 +20,6 @@ podAnnotations: {}
 podLabels: {}
 imagePullSecrets: 
   - name: "ghcr"
-
-volumes: 
-  - name: kafka-certs
-    secret:
-      secretName: "kafka"
-  - name: kafka-ca
-    secret:
-      secretName: "finure-cluster-ca-cert"
-
-# Additional volumeMounts on the output Deployment definition.
-volumeMounts: 
-  - name: kafka-certs
-    mountPath: /etc/kafka/secrets
-    readOnly: true
-  - name: kafka-ca
-    mountPath: /etc/kafka/ca
-    readOnly: true
 
 livenessProbe:
   exec:
