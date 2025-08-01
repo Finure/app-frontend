@@ -1,2 +1,2 @@
 # app-frontend
-Finure frontend application TEST
+Finure frontend application
