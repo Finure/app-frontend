@@ -2,10 +2,9 @@ FROM node:22-slim AS builder
 
 WORKDIR /app
 
-COPY package.json package-lock.json* ./
+COPY package.json ./
 
-RUN rm -rf node_modules && \
-    npm ci
+RUN npm install
 
 COPY . .
 
