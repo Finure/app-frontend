@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json* ./
 
-RUN rm -rf node_modules package-lock.json && \
+RUN rm -rf node_modules && \
     npm ci
 
 COPY . .
