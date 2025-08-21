@@ -34,7 +34,7 @@ function validateFormData(data: FormData): string[] {
     errors.push("Income must be a number > 0.");
   if (!Number.isInteger(data.credit_score) || data.credit_score < 300 || data.credit_score > 850)
     errors.push("Credit score must be an integer between 300 and 850.");
-  if (!Number.isFinite(data.loan_amount) || data.loan_amount <= 0)
+  if (!Number.isFinite(data.loan_amount) || data.loan_amount < 0)
     errors.push("Loan amount must be a number > 0.");
   return errors;
 }
