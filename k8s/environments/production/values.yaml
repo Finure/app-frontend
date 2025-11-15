@@ -34,3 +34,5 @@ readinessProbe:
 service:
   type: ClusterIP
   port: 80
+hosts:
+  - finure.clokesh.me
