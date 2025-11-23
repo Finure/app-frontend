@@ -8,6 +8,8 @@ Finure app frontend is the user interface for the Finure platform, built with Re
 - **Component-Based Architecture:** Organized into reusable components, pages, hooks, and libraries
 - **Kubernetes Native:** Runs as a Deployment in a Kubernetes cluster, with Helm charts for deployment and configuration
 - **Environment Configuration:** Supports environment-specific values for flexible deployments
+- **Kubernetes Gateway API:** Uses Kubernetes Gateway API with Istio Controller
+- **Blue/Green Progressive Delivery:** Leverages Flagger for Blue/Green progressive delivery with smoke and load tests
 
 ## 3. Prerequisites
 - Kubernetes cluster bootstrapped ([Finure Terraform](https://github.com/finure/terraform))
@@ -37,6 +39,8 @@ app-frontend/
 │   │           ├── _helpers.tpl        # Helm template helpers
 │   │           ├── deployment.yaml     # Kubernetes Deployment manifest
 │   │           ├── hpa.yaml            # Horizontal Pod Autoscaler
+│   │           ├── ingress.yaml        # HTTP Route definition for ingress
+│   │           ├── progressive.yaml    # Flagger for Blue/Green progessive delivery
 │   │           └── service.yaml        # Service definition for frontend
 │   └── scripts/
 │       ├── istio.sh                    # Istio setup script
